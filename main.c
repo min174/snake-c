@@ -2,16 +2,21 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int HEIGHT=10;
+const int HEIGHT=9;
 const int WIDTH=33;
+
+int snake_X;
+int snake_Y;
 
 int fruit_X;
 int fruit_Y;
 
+void snake_position();
 void fruit_position();
 void draw_board();
 
 int main() {
+    snake_position();
     fruit_position();
     draw_board();
     return 0;
@@ -20,7 +25,7 @@ int main() {
 void fruit_position() {
         srand(time(NULL));
 
-        fruit_X = rand() % WIDTH;
+        fruit_X = rand()%WIDTH;
         while (fruit_X == 0) {
             fruit_X = rand()%WIDTH;
         }
@@ -29,6 +34,11 @@ void fruit_position() {
         while (fruit_Y == 0) {
             fruit_Y = rand()%HEIGHT;
         }
+}
+
+void snake_position() {
+    snake_X = WIDTH/2;
+    snake_Y = HEIGHT/2;
 }
 
 void draw_board() {
@@ -47,6 +57,9 @@ void draw_board() {
             }
             else if (i==fruit_Y && j==fruit_X) {
                 printf("@");
+            }
+            else if (i==snake_Y && j==snake_X) {
+                printf("o");
             }
             else {
                 printf(" ");
