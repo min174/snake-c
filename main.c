@@ -103,13 +103,13 @@ void movement() {
 
     switch (key) {
         case 'w':
-            snake_Y++;
+            snake_Y--;
             break;
         case 'a':
             snake_X--;
             break;
         case 's':
-            snake_Y--;
+            snake_Y++;
             break;
         case 'd':
             snake_X++;
@@ -118,6 +118,7 @@ void movement() {
             quit = 1;
             break;
         default:
-            printf("invalid input");
+            printf("\n\ninvalid input\n");
+            break;
     }
 }
