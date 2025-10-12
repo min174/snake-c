@@ -16,24 +16,33 @@ int snake_Y;
 int fruit_X;
 int fruit_Y;
 
-void starting_position();
+int quit;
+
+void starting_positions();
 void draw_board();
+void movement();
 
 int main() {
 
-    starting_position();
+    starting_positions();
 
-    while (!_kbhit()) {
-        draw_board();
-        printf("Use WASD to move the snake: ");
-        Sleep(300);
+    while (quit==0) {
+        while (!_kbhit()) {
+            draw_board();
+            printf("Use WASD to move the snake: ");
+            Sleep(300);
+        }
+
+        movement();
     }
-
     return 0;
 }
 
-void starting_position() {
+void starting_positions() {
     srand(time(NULL));
+
+    //the program will not quit
+    quit=0;
 
     //places snakes head in the centre of the board
     snake_X = WIDTH/2;
@@ -54,6 +63,8 @@ void starting_position() {
 
 void draw_board() {
     int i, j;
+
+    printf("\n");
 
     for (i = 0; i < WIDTH; i++) {
         printf("#");
@@ -86,3 +97,27 @@ void draw_board() {
     printf("\n");
 }
 
+void movement() {
+
+    char key = _getch();
+
+    switch (key) {
+        case 'w':
+            snake_Y++;
+            break;
+        case 'a':
+            snake_X--;
+            break;
+        case 's':
+            snake_Y--;
+            break;
+        case 'd':
+            snake_X++;
+            break;
+        case 'q':
+            quit = 1;
+            break;
+        default:
+            printf("invalid input");
+    }
+}
