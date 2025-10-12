@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
+#include <windows.h>
 
 const int HEIGHT=9;
 const int WIDTH=33;
@@ -14,9 +16,18 @@ int fruit_Y;
 void starting_position();
 void draw_board();
 
+
 int main() {
+
     starting_position();
-    draw_board();
+
+    while (!_kbhit()) {
+        draw_board();
+        printf("Use WASD to move the snake: ");
+        Sleep(300);
+        printf("\n");
+    }
+
     return 0;
 }
 
@@ -67,4 +78,6 @@ void draw_board() {
     for (i = 0; i < WIDTH; i++) {
         printf("#");
     }
+
+    printf("\n");
 }
