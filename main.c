@@ -11,34 +11,30 @@ int snake_Y;
 int fruit_X;
 int fruit_Y;
 
-void snake_position();
-void fruit_position();
+void starting_position();
 void draw_board();
 
 int main() {
-    snake_position();
-    fruit_position();
+    starting_position();
     draw_board();
     return 0;
 }
 
-void fruit_position() {
-        srand(time(NULL));
+void starting_position() {
+    srand(time(NULL));
 
-        fruit_X = rand()%WIDTH;
-        while (fruit_X == 0) {
-            fruit_X = rand()%WIDTH;
-        }
-
-        fruit_Y = rand()%HEIGHT;
-        while (fruit_Y == 0) {
-            fruit_Y = rand()%HEIGHT;
-        }
-}
-
-void snake_position() {
     snake_X = WIDTH/2;
     snake_Y = HEIGHT/2;
+
+    fruit_X = rand()%WIDTH;
+    while (fruit_X == 0) {
+        fruit_X = rand()%WIDTH;
+    }
+
+    fruit_Y = rand()%HEIGHT;
+    while (fruit_Y == 0) {
+        fruit_Y = rand()%HEIGHT;
+    }
 }
 
 void draw_board() {
