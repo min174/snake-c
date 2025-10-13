@@ -21,6 +21,7 @@ int quit;
 void starting_positions();
 void draw_board();
 void movement();
+void check_collision();
 
 int main() {
 
@@ -35,6 +36,7 @@ int main() {
         }
 
         movement();
+        check_collision();
     }
     return 0;
 }
@@ -121,5 +123,18 @@ void movement() {
         default:
             printf("\n\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
             break;
+    }
+}
+
+void check_collision() {
+
+    if (snake_X <= 0 || snake_X >= WIDTH - 1) {
+        printf("\n\n game over!!\n");
+        quit = 1;
+    }
+
+    if (snake_Y < 0 || snake_Y >= HEIGHT) {
+        printf("\n\n game over!!\n");
+        quit = 1;
     }
 }
