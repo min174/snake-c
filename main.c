@@ -17,22 +17,24 @@ int fruit_X;
 int fruit_Y;
 
 int quit;
+int score;
 
-void starting_positions();
-void random_fruit_position();
+void setup();
+void fruit_position();
 void draw_board();
 void movement();
 void check_collision();
 
 int main() {
 
-    starting_positions();
+    setup();
 
     while (quit==0) {
         while (!_kbhit()) {
             printf("\n");
             draw_board();
-            printf("Use WASD to move the snake: ");
+            printf("Score: %d\n", score);
+            printf("Use WASD to move the snake or Q to quit: ");
             Sleep(300);
         }
 
@@ -40,21 +42,22 @@ int main() {
         check_collision();
     }
     return 0;
-}
+}s
 
-void starting_positions() {
+void setup() {
 
     //the program will not quit
     quit=0;
+    score=0;
 
     //places snakes head in the centre of the board
     snake_X = WIDTH/2;
     snake_Y = HEIGHT/2;
 
-    random_fruit_position();
+    fruit_position();
 }
 
-void random_fruit_position() {
+void fruit_position() {
 
     srand(time(NULL));
 
@@ -137,7 +140,8 @@ void check_collision() {
 
     if (snake_X == fruit_X && snake_Y == fruit_Y) {
         printf("\n\n you got one fruit!");
-        random_fruit_position();
+        fruit_position();
+        score++;
         return;
     }
 
