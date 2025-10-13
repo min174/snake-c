@@ -29,7 +29,10 @@ int main() {
 
     setup();
 
+    //if the program has not quit, perform the loop
     while (quit==0) {
+
+        //if the user has not pressed a key, perform the loop every 300 milliseconds
         while (!_kbhit()) {
             printf("\n");
             draw_board();
@@ -44,6 +47,7 @@ int main() {
     return 0;
 }
 
+//this function will do the initial setup of the program
 void setup() {
 
     //the program will not quit
@@ -57,6 +61,7 @@ void setup() {
     fruit_position();
 }
 
+//this function will randomise a location to put the fruit on the board
 void fruit_position() {
 
     srand(time(NULL));
@@ -74,11 +79,13 @@ void fruit_position() {
     }
 }
 
+//draws the actual board that the user will see
 void draw_board() {
     int i, j;
 
     printf("\n");
 
+    //draws the top wall of board
     for (i = 0; i < WIDTH; i++) {
         printf("#");
     }
@@ -87,15 +94,23 @@ void draw_board() {
 
     for (i = 0; i < HEIGHT; i++) {
         for (j = 0; j < WIDTH; j++) {
+
+            //draws the left and right walls of the board
             if (j==0||j==WIDTH-1) {
                 printf("#");
             }
+
+            //draws the fruit
             else if (i==fruit_Y && j==fruit_X) {
                 printf("@");
             }
+
+            //draws the snakes head
             else if (i==snake_Y && j==snake_X) {
                 printf("o");
             }
+
+            //leaves the rest as empty space
             else {
                 printf(" ");
             }
@@ -103,6 +118,7 @@ void draw_board() {
         printf("\n");
     }
 
+    //draws the bottom wall of the board
     for (i = 0; i < WIDTH; i++) {
         printf("#");
     }
@@ -110,10 +126,13 @@ void draw_board() {
     printf("\n");
 }
 
+//takes user input and makes the snake move on the board
 void movement() {
 
+    //gets the users input
     char key = _getch();
 
+    //puts the character into lower case, so the user can use both lower and upper case
     switch (tolower(key)) {
         case 'w':
             snake_Y--;
@@ -128,6 +147,7 @@ void movement() {
             snake_X++;
             break;
         case 'q':
+            printf("\n\nThanks for playing!\n");
             quit = 1;
             break;
         default:
@@ -136,8 +156,10 @@ void movement() {
     }
 }
 
+//what happens when the snake collides with something
 void check_collision() {
 
+    //if the snakes head touches the fruit
     if (snake_X == fruit_X && snake_Y == fruit_Y) {
         printf("\n\n you got one fruit!");
         fruit_position();
@@ -145,13 +167,10 @@ void check_collision() {
         return;
     }
 
-    if (snake_X <= 0 || snake_X >= WIDTH - 1) {
+    //if the snakes head hits the wall
+    if (snake_X <= 0 || snake_X >= WIDTH-1 || snake_Y < 0 || snake_Y >= HEIGHT) {
         printf("\n\n game over!!\n");
-        quit = 1;
+        quit=1;
     }
 
-    if (snake_Y < 0 || snake_Y >= HEIGHT) {
-        printf("\n\n game over!!\n");
-        quit = 1;
-    }
 }
