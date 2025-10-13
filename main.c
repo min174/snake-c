@@ -6,7 +6,7 @@
 
 //board will always stay the same
 const int HEIGHT=9;
-const int WIDTH=33;
+const int WIDTH=25;
 
 //position of the snakes head will be shared with the whole program
 int snake_X;
@@ -28,6 +28,7 @@ int main() {
 
     while (quit==0) {
         while (!_kbhit()) {
+            printf("\n");
             draw_board();
             printf("Use WASD to move the snake: ");
             Sleep(300);
@@ -118,7 +119,7 @@ void movement() {
             quit = 1;
             break;
         default:
-            printf("\n\ninvalid input\n");
+            printf("\n\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
             break;
     }
 }
