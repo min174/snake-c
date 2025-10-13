@@ -19,6 +19,7 @@ int fruit_Y;
 int quit;
 
 void starting_positions();
+void random_fruit_position();
 void draw_board();
 void movement();
 void check_collision();
@@ -42,7 +43,6 @@ int main() {
 }
 
 void starting_positions() {
-    srand(time(NULL));
 
     //the program will not quit
     quit=0;
@@ -50,6 +50,13 @@ void starting_positions() {
     //places snakes head in the centre of the board
     snake_X = WIDTH/2;
     snake_Y = HEIGHT/2;
+
+    random_fruit_position();
+}
+
+void random_fruit_position() {
+
+    srand(time(NULL));
 
     //generates random X coordinate, if its zero, randomise again
     fruit_X = rand()%WIDTH;
@@ -127,6 +134,12 @@ void movement() {
 }
 
 void check_collision() {
+
+    if (snake_X == fruit_X && snake_Y == fruit_Y) {
+        printf("\n\n you got one fruit!");
+        random_fruit_position();
+        return;
+    }
 
     if (snake_X <= 0 || snake_X >= WIDTH - 1) {
         printf("\n\n game over!!\n");
