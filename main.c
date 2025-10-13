@@ -42,7 +42,7 @@ int main() {
         check_collision();
     }
     return 0;
-}s
+}
 
 void setup() {
 
@@ -114,7 +114,7 @@ void movement() {
 
     char key = _getch();
 
-    switch (key) {
+    switch (tolower(key)) {
         case 'w':
             snake_Y--;
             break;
