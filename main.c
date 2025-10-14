@@ -6,8 +6,8 @@
 #include <ctype.h>
 
 //board will always stay the same
-const int HEIGHT=9;
-const int WIDTH=25;
+const int HEIGHT=15;
+const int WIDTH=50;
 
 //position of the snakes head will be shared with the whole program
 int snake_X;
