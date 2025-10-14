@@ -3,6 +3,7 @@
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
+#include <ctype.h>
 
 //board will always stay the same
 const int HEIGHT=9;
@@ -12,12 +13,13 @@ const int WIDTH=25;
 int snake_X;
 int snake_Y;
 
+int direction;
+
 //position of the fruit will be shared with the whole program
 int fruit_X;
 int fruit_Y;
 
-int quit;
-int score;
+int quit, score;
 
 void setup();
 void fruit_position();
@@ -30,27 +32,24 @@ int main() {
     setup();
 
     //if the program has not quit, perform the loop
-    while (quit==0) {
-
-        //if the user has not pressed a key, perform the loop every 300 milliseconds
-        while (!_kbhit()) {
-            printf("\n");
-            draw_board();
-            printf("Score: %d\n", score);
-            printf("Use WASD to move the snake or Q to quit: ");
-            Sleep(300);
-        }
-
+    while (!quit) {
+        draw_board();
         movement();
         check_collision();
+        printf("Score: %d\n", score);
+        printf("Use WASD to move the snake or Q to quit:\n");
+        Sleep(50);
     }
+
+    printf("\nThanks for playing!\nYour final score is: %d", score);
+
     return 0;
 }
 
 //this function will do the initial setup of the program
 void setup() {
 
-    //the program will not quit
+    //the program will not quit and the score is 0
     quit=0;
     score=0;
 
@@ -58,6 +57,7 @@ void setup() {
     snake_X = WIDTH/2;
     snake_Y = HEIGHT/2;
 
+    //generates the first position for the fruit
     fruit_position();
 }
 
@@ -129,29 +129,43 @@ void draw_board() {
 //takes user input and makes the snake move on the board
 void movement() {
 
-    //gets the users input
-    char key = _getch();
+    //if a key is pressed perform the loop
+    if (_kbhit()){
+        //puts the character into lower case, so the user can use both lower and upper case
+        switch (tolower(_getch())) {
+            case 'w':
+                direction=1;
+                break;
+            case 'a':
+                direction=2;
+                break;
+            case 's':
+                direction=3;
+                break;
+            case 'd':
+                direction=4;
+                break;
+            case 'q':
+                quit = 1;
+                break;
+            default:
+                printf("\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
+                break;
+        }
+    }
 
-    //puts the character into lower case, so the user can use both lower and upper case
-    switch (tolower(key)) {
-        case 'w':
+    switch (direction) {
+        case 1:
             snake_Y--;
             break;
-        case 'a':
+        case 2:
             snake_X--;
             break;
-        case 's':
+        case 3:
             snake_Y++;
             break;
-        case 'd':
+        case 4:
             snake_X++;
-            break;
-        case 'q':
-            printf("\n\nThanks for playing!\n");
-            quit = 1;
-            break;
-        default:
-            printf("\n\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
             break;
     }
 }
@@ -161,7 +175,7 @@ void check_collision() {
 
     //if the snakes head touches the fruit
     if (snake_X == fruit_X && snake_Y == fruit_Y) {
-        printf("\n\n you got one fruit!");
+        printf("\n you got one fruit!\n\n");
         fruit_position();
         score++;
         return;
@@ -169,7 +183,7 @@ void check_collision() {
 
     //if the snakes head hits the wall
     if (snake_X <= 0 || snake_X >= WIDTH-1 || snake_Y < 0 || snake_Y >= HEIGHT) {
-        printf("\n\n game over!!\n");
+        printf("\ngame over!!\n");
         quit=1;
     }
 
