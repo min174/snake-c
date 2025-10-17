@@ -249,8 +249,14 @@ void check_collision() {
 
     //if the snakes head hits the wall
     if (snake_X <= 0 || snake_X >= WIDTH-1 || snake_Y < 0 || snake_Y >= HEIGHT) {
-        printf("\ngame over!!\n");
-        quit=1;
+        quit = ;
+    }
+
+    //if the snakes head touches her tail
+    for (int i=0; i<tail_length; i++) {
+        if (snake_X == tail_X[i] && snake_Y == tail_Y[i]) {
+            quit = 1;
+        }
     }
 
 }
