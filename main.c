@@ -5,6 +5,22 @@
 #include <windows.h>
 #include <ctype.h>
 
+const char* title_art[] = {
+    "####################################################",
+    "#  _____   ___     _   ______   _   __  _____   _  #",
+    "# |  ___| |   \\   | | |  __  | | | / / |  ___| | | #",
+    "# | |___  | |\\ \\  | | | |__| | | |/ /  | |_    | | #",
+    "# |___  | | | \\ \\ | | |  __  | |   <   |  _|   |_| #",
+    "#  ___| | | |  \\ \\| | | |  | | | |\\ \\  | |___   _  #",
+    "# |_____| |_|   \\___| |_|  |_| |_| \\_\\ |_____| |_| #",
+    "#                                                  #",
+    "#                 [P] Play                         #",
+    "#                 [L] Leaderboard                  #",
+    "#                 [Q] Quit                         #",
+    "#                                                  #",
+    "####################################################"
+};
+
 //board will always stay the same
 const int HEIGHT=15;
 const int WIDTH=50;
@@ -34,10 +50,13 @@ void userinput();
 void update_logic();
 void check_collision();
 int quit_menu();
+void title_screen();
 
 int main() {
     int playagain=1;
     gamespeed = 150;
+
+    title_screen();
 
     while (playagain) {
 
@@ -57,6 +76,27 @@ int main() {
     }
 
     return 0;
+}
+
+void title_screen() {
+
+    char choice;
+
+    //calculates how many lines are in the art array
+    int number_lines = sizeof(title_art)/sizeof(title_art[0]);
+
+    for (int i=0; i<number_lines; i++) {
+        printf("%s\n", title_art[i]);
+    }
+
+    printf("Type your choice here: ");
+    scanf("%c", &choice);
+
+    //if the choice is to quit, exit the program
+    if (choice=='q') {
+        exit(0);
+    }
+
 }
 
 //this function will do the initial setup of the program
