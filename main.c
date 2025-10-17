@@ -24,7 +24,8 @@ int quit, score;
 void setup();
 void fruit_position();
 void draw_board();
-void movement();
+void userinput();
+void update_logic();
 void check_collision();
 
 int main() {
@@ -34,11 +35,11 @@ int main() {
     //if the program has not quit, perform the loop
     while (!quit) {
         draw_board();
-        movement();
-        check_collision();
+        userinput();
+        update_logic();
         printf("Score: %d\n", score);
         printf("Use WASD to move the snake or Q to quit:\n");
-        Sleep(50);
+        Sleep(150);
     }
 
     printf("\nThanks for playing!\nYour final score is: %d", score);
@@ -63,7 +64,6 @@ void setup() {
 
 //this function will randomise a location to put the fruit on the board
 void fruit_position() {
-
     srand(time(NULL));
 
     //generates random X coordinate, if its zero, randomise again
@@ -81,6 +81,7 @@ void fruit_position() {
 
 //draws the actual board that the user will see
 void draw_board() {
+    system("cls");
     int i, j;
 
     printf("\n");
@@ -127,7 +128,7 @@ void draw_board() {
 }
 
 //takes user input and makes the snake move on the board
-void movement() {
+void userinput() {
 
     //if a key is pressed perform the loop
     if (_kbhit()){
@@ -153,7 +154,9 @@ void movement() {
                 break;
         }
     }
+}
 
+void update_logic() {
     switch (direction) {
         case 1:
             snake_Y--;
@@ -168,6 +171,8 @@ void movement() {
             snake_X++;
             break;
     }
+
+    check_collision();
 }
 
 //what happens when the snake collides with something
