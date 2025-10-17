@@ -9,6 +9,8 @@
 const int HEIGHT=15;
 const int WIDTH=50;
 
+int gamespeed;
+
 //position of the snakes head will be shared with the whole program
 int snake_X;
 int snake_Y;
@@ -35,6 +37,7 @@ int quit_menu();
 
 int main() {
     int playagain=1;
+    gamespeed = 150;
 
     while (playagain) {
 
@@ -47,10 +50,12 @@ int main() {
             update_logic();
             printf("Score: %d\n", score);
             printf("Use WASD to move the snake or Q to quit:\n");
-            Sleep(150);
+
+            Sleep(gamespeed);
         }
         playagain = quit_menu();
     }
+
     return 0;
 }
 
@@ -275,6 +280,13 @@ void check_collision() {
         fruit_position();
         score++;
         tail_length++;
+
+        //the higher the score, the faster the snake moves
+        gamespeed = gamespeed-(score*5);
+        if (gamespeed<50) {
+            gamespeed = 50;
+        }
+
         return;
     }
 
