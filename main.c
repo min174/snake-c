@@ -31,23 +31,26 @@ void draw_board();
 void userinput();
 void update_logic();
 void check_collision();
+int quit_menu();
 
 int main() {
+    int playagain=1;
 
-    setup();
+    while (playagain) {
 
-    //if the program has not quit, perform the loop
-    while (!quit) {
-        draw_board();
-        userinput();
-        update_logic();
-        printf("Score: %d\n", score);
-        printf("Use WASD to move the snake or Q to quit:\n");
-        Sleep(150);
+        setup();
+
+        //if the program has not quit, perform the loop
+        while (!quit) {
+            draw_board();
+            userinput();
+            update_logic();
+            printf("Score: %d\n", score);
+            printf("Use WASD to move the snake or Q to quit:\n");
+            Sleep(150);
+        }
+        playagain = quit_menu();
     }
-
-    printf("\nThanks for playing!\nYour final score is: %d", score);
-
     return 0;
 }
 
@@ -66,6 +69,33 @@ void setup() {
 
     //generates the first position for the fruit
     fruit_position();
+}
+
+int quit_menu() {
+    system("cls");
+
+    char answer;
+
+    printf("Thank you for playing!\nYour final score is: %d\n", score);
+
+    while (1) {
+        printf("Play again?\nY/N\n");
+        scanf(" %c", &answer);
+
+        answer = tolower(answer);
+
+        if (answer=='y') {
+            quit=0;
+            return 1;
+        }
+        else if (answer == 'n') {
+            return 0;
+        }
+        else{
+            printf("\nInvalid input, please try again!\n");
+        }
+    }
+
 }
 
 //this function will randomise a location to put the fruit on the board
@@ -106,6 +136,7 @@ void fruit_position() {
 //draws the actual board that the user will see
 void draw_board() {
 
+    //clears screen
     system("cls");
 
     int i, j;
@@ -249,13 +280,13 @@ void check_collision() {
 
     //if the snakes head hits the wall
     if (snake_X <= 0 || snake_X >= WIDTH-1 || snake_Y < 0 || snake_Y >= HEIGHT) {
-        quit = 1;
+        quit=1;
     }
 
     //if the snakes head touches her tail
     for (int i=0; i<tail_length; i++) {
         if (snake_X == tail_X[i] && snake_Y == tail_Y[i]) {
-            quit = 1;
+            quit=1;
         }
     }
 
