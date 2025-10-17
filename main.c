@@ -15,6 +15,10 @@ int snake_Y;
 
 int direction;
 
+int tail_X[100];
+int tail_Y[100];
+int tail_length;
+
 //position of the fruit will be shared with the whole program
 int fruit_X;
 int fruit_Y;
@@ -53,6 +57,8 @@ void setup() {
     //the program will not quit and the score is 0
     quit=0;
     score=0;
+    tail_length=0;
+    srand(time(NULL));
 
     //places snakes head in the centre of the board
     snake_X = WIDTH/2;
@@ -64,18 +70,35 @@ void setup() {
 
 //this function will randomise a location to put the fruit on the board
 void fruit_position() {
-    srand(time(NULL));
+    int valid_position=0;
 
-    //generates random X coordinate, if its zero, randomise again
-    fruit_X = rand()%WIDTH;
-    while (fruit_X == 0) {
-        fruit_X = rand()%WIDTH;
-    }
+    while (!valid_position) {
 
-    //generates random Y coordinate, if its zero, randomise again
-    fruit_Y = rand()%HEIGHT;
-    while (fruit_Y == 0) {
+        //assume its a valid position
+        valid_position = 1;
+
+        //generates random coordinates, doesnt allow zero or on the walls of the board
+        fruit_X = 1 + rand()%(WIDTH-2);
         fruit_Y = rand()%HEIGHT;
+
+        //if the fruit is on the fruit its an invalid position
+        if (fruit_X ==  snake_X && fruit_Y == snake_Y) {
+            valid_position = 0;
+        }
+
+        //if the position is still valid, we check if the fruit is on the tail
+        if (valid_position == 1) {
+
+            //if the fruit is on the tail, its an invalid position and we leave the loop
+            for (int i=0; i<tail_length; i++) {
+                if (fruit_X == tail_X[i] && fruit_Y == tail_Y[i]) {
+                    valid_position=0;
+                    break;
+                }
+            }
+
+        }
+
     }
 }
 
@@ -111,9 +134,20 @@ void draw_board() {
                 printf("o");
             }
 
-            //leaves the rest as empty space
+            //will draw either tail part or white space
             else {
-                printf(" ");
+                int tail_found = 0;
+
+                for (int k=0; k<tail_length; k++) {
+                    if (i==tail_Y[k] && j==tail_X[k] ) {
+                        printf("o");
+                        tail_found = 1;
+                        break;
+                    }
+                }
+                if (!tail_found) {
+                    printf(" ");
+                }
             }
         }
         printf("\n");
