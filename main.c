@@ -70,6 +70,7 @@ void setup() {
 
 //this function will randomise a location to put the fruit on the board
 void fruit_position() {
+
     int valid_position=0;
 
     while (!valid_position) {
@@ -104,7 +105,9 @@ void fruit_position() {
 
 //draws the actual board that the user will see
 void draw_board() {
+
     system("cls");
+
     int i, j;
 
     printf("\n");
@@ -131,7 +134,7 @@ void draw_board() {
 
             //draws the snakes head
             else if (i==snake_Y && j==snake_X) {
-                printf("o");
+                printf("Q");
             }
 
             //will draw either tail part or white space
@@ -148,6 +151,7 @@ void draw_board() {
                 if (!tail_found) {
                     printf(" ");
                 }
+
             }
         }
         printf("\n");
@@ -166,6 +170,7 @@ void userinput() {
 
     //if a key is pressed perform the loop
     if (_kbhit()){
+
         //puts the character into lower case, so the user can use both lower and upper case
         switch (tolower(_getch())) {
             case 'w':
@@ -187,10 +192,31 @@ void userinput() {
                 printf("\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
                 break;
         }
+
     }
 }
 
 void update_logic() {
+
+    int tempX1 = tail_X[0];
+    int tempY1 = tail_Y[0];
+
+    tail_X[0] = snake_X;
+    tail_Y[0] = snake_Y;
+
+    int tempX2, tempY2;
+
+    for (int i=1; i<tail_length; i++) {
+        tempX2 = tail_X[i];
+        tempY2 = tail_Y[i];
+
+        tail_X[i] = tempX1;
+        tail_Y[i] = tempY1;
+
+        tempX1 = tempX2;
+        tempY1 = tempY2;
+    }
+
     switch (direction) {
         case 1:
             snake_Y--;
@@ -217,6 +243,7 @@ void check_collision() {
         printf("\n you got one fruit!\n\n");
         fruit_position();
         score++;
+        tail_length++;
         return;
     }
 
