@@ -21,6 +21,13 @@ const char* title_art[] = {
     "####################################################"
 };
 
+enum D {
+    UP,
+    RIGHT,
+    LEFT,
+    DOWN
+};
+
 //board will always stay the same
 const int HEIGHT=15;
 const int WIDTH=50;
@@ -92,7 +99,11 @@ void title_screen() {
     printf("Type your choice here: ");
     scanf("%c", &choice);
 
-    //if the choice is to quit, exit the program
+    choice = tolower(choice);
+
+    if (choice=='p') {
+        return;
+    }
     if (choice=='q') {
         exit(0);
     }
@@ -102,11 +113,12 @@ void title_screen() {
 //this function will do the initial setup of the program
 void setup() {
 
+    srand(time(NULL));
+
     //the program will not quit and the score is 0
     quit=0;
     score=0;
     tail_length=0;
-    srand(time(NULL));
 
     //places snakes head in the centre of the board
     snake_X = WIDTH/2;
@@ -250,16 +262,16 @@ void userinput() {
         //puts the character into lower case, so the user can use both lower and upper case
         switch (tolower(_getch())) {
             case 'w':
-                direction=1;
+                direction=UP;
                 break;
             case 'a':
-                direction=2;
+                direction=LEFT;
                 break;
             case 's':
-                direction=3;
+                direction=DOWN;
                 break;
             case 'd':
-                direction=4;
+                direction=RIGHT;
                 break;
             case 'q':
                 quit = 1;
@@ -294,16 +306,16 @@ void update_logic() {
     }
 
     switch (direction) {
-        case 1:
+        case UP:
             snake_Y--;
             break;
-        case 2:
+        case LEFT:
             snake_X--;
             break;
-        case 3:
+        case DOWN:
             snake_Y++;
             break;
-        case 4:
+        case RIGHT:
             snake_X++;
             break;
     }
