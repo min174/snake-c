@@ -26,6 +26,7 @@ const char* title_art[] = {
 };
 
 enum D {
+    STOP = 0,
     UP,
     RIGHT,
     LEFT,
@@ -33,6 +34,7 @@ enum D {
 };
 
 int direction;
+int last_direction;
 
 struct game_state {
     int speed;
@@ -75,9 +77,8 @@ int main() {
             draw_board();
             userinput();
             update_logic();
+            printf("Use WASD to move the snake\nP to pause\nQ to quit\n");
             printf("Score: %d\n", gs.score);
-            printf("Use WASD to move the snake or Q to quit:\n");
-
             Sleep(gs.speed);
         }
         play_again = quit_menu();
@@ -98,7 +99,7 @@ void title_screen() {
     }
 
     printf("Type your choice here: ");
-    scanf("%c", &choice);
+    scanf(" %c", &choice);
 
     choice = tolower(choice);
 
@@ -119,6 +120,7 @@ void setup() {
     gs.quit=0;
     gs.score=0;
     tail.length=0;
+    direction=STOP;
 
     //places snakes head in the centre of the board
     snake.x = WIDTH/2;
@@ -262,17 +264,31 @@ void userinput() {
         //puts the character into lower case, so the user can use both lower and upper case
         switch (tolower(_getch())) {
             case 'w':
-                direction=UP;
-                break;
+                if (direction!=DOWN)
+                    direction=UP;
+                    break;
             case 'a':
-                direction=LEFT;
-                break;
+                if (direction!=RIGHT)
+                    direction=LEFT;
+                    break;
             case 's':
-                direction=DOWN;
-                break;
+                if (direction!=UP)
+                    direction=DOWN;
+                    break;
             case 'd':
-                direction=RIGHT;
-                break;
+                if (direction!=LEFT)
+                    direction=RIGHT;
+                    break;
+            case 'p':
+                if (direction!=STOP) {
+                    last_direction=direction;
+                    direction=STOP;
+                    break;
+                }
+                else {
+                    direction=last_direction;
+                    break;
+                }
             case 'q':
                 gs.quit = 1;
                 break;
@@ -286,25 +302,29 @@ void userinput() {
 
 void update_logic() {
 
-    int tempX1 = tail.x[0];
-    int tempY1 = tail.y[0];
+    //if the user did not pause the program, update the tail logic
+    if (direction!=STOP) {
+        int tempX1 = tail.x[0];
+        int tempY1 = tail.y[0];
 
-    tail.x[0] = snake.x;
-    tail.y[0] = snake.y;
+        tail.x[0] = snake.x;
+        tail.y[0] = snake.y;
 
-    int tempX2, tempY2;
+        int tempX2, tempY2;
 
-    for (int i=1; i<tail.length; i++) {
-        tempX2 = tail.x[i];
-        tempY2 = tail.y[i];
+        for (int i=1; i<tail.length; i++) {
+            tempX2 = tail.x[i];
+            tempY2 = tail.y[i];
 
-        tail.x[i] = tempX1;
-        tail.y[i] = tempY1;
+            tail.x[i] = tempX1;
+            tail.y[i] = tempY1;
 
-        tempX1 = tempX2;
-        tempY1 = tempY2;
+            tempX1 = tempX2;
+            tempY1 = tempY2;
+        }
     }
 
+    //moves the snake
     switch (direction) {
         case UP:
             snake.y--;
