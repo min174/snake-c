@@ -5,6 +5,10 @@
 #include <windows.h>
 #include <ctype.h>
 
+//board will always stay the same
+const int HEIGHT=15;
+const int WIDTH=50;
+
 const char* title_art[] = {
     "####################################################",
     "#  _____   ___     _   ______   _   __  _____   _  #",
@@ -28,27 +32,24 @@ enum D {
     DOWN
 };
 
-//board will always stay the same
-const int HEIGHT=15;
-const int WIDTH=50;
-
-int gamespeed;
-
-//position of the snakes head will be shared with the whole program
-int snake_X;
-int snake_Y;
-
 int direction;
 
-int tail_X[100];
-int tail_Y[100];
-int tail_length;
+struct game_state {
+    int speed;
+    int quit;
+    int score;
+}gs;
 
-//position of the fruit will be shared with the whole program
-int fruit_X;
-int fruit_Y;
+struct position{
+    int x;
+    int y;
+}snake, fruit;
 
-int quit, score;
+struct tail_position {
+    int x[100];
+    int y[100];
+    int length;
+}tail;
 
 void setup();
 void fruit_position();
@@ -60,26 +61,26 @@ int quit_menu();
 void title_screen();
 
 int main() {
-    int playagain=1;
-    gamespeed = 150;
+    int play_again=1;
+    gs.speed = 150;
 
     title_screen();
 
-    while (playagain) {
+    while (play_again) {
 
         setup();
 
         //if the program has not quit, perform the loop
-        while (!quit) {
+        while (!gs.quit) {
             draw_board();
             userinput();
             update_logic();
-            printf("Score: %d\n", score);
+            printf("Score: %d\n", gs.score);
             printf("Use WASD to move the snake or Q to quit:\n");
 
-            Sleep(gamespeed);
+            Sleep(gs.speed);
         }
-        playagain = quit_menu();
+        play_again = quit_menu();
     }
 
     return 0;
@@ -112,17 +113,16 @@ void title_screen() {
 
 //this function will do the initial setup of the program
 void setup() {
-
     srand(time(NULL));
 
     //the program will not quit and the score is 0
-    quit=0;
-    score=0;
-    tail_length=0;
+    gs.quit=0;
+    gs.score=0;
+    tail.length=0;
 
     //places snakes head in the centre of the board
-    snake_X = WIDTH/2;
-    snake_Y = HEIGHT/2;
+    snake.x = WIDTH/2;
+    snake.y = HEIGHT/2;
 
     //generates the first position for the fruit
     fruit_position();
@@ -133,7 +133,7 @@ int quit_menu() {
 
     char answer;
 
-    printf("Thank you for playing!\nYour final score is: %d\n", score);
+    printf("Thank you for playing!\nYour final score is: %d\n", gs.score);
 
     while (1) {
         printf("Play again?\nY/N\n");
@@ -142,7 +142,7 @@ int quit_menu() {
         answer = tolower(answer);
 
         if (answer=='y') {
-            quit=0;
+            gs.quit=0;
             return 1;
         }
         else if (answer == 'n') {
@@ -166,11 +166,11 @@ void fruit_position() {
         valid_position = 1;
 
         //generates random coordinates, doesnt allow zero or on the walls of the board
-        fruit_X = 1 + rand()%(WIDTH-2);
-        fruit_Y = rand()%HEIGHT;
+        fruit.x = 1 + rand()%(WIDTH-2);
+        fruit.y = rand()%HEIGHT;
 
         //if the fruit is on the fruit its an invalid position
-        if (fruit_X ==  snake_X && fruit_Y == snake_Y) {
+        if (fruit.x ==  snake.x && fruit.y == snake.y) {
             valid_position = 0;
         }
 
@@ -178,8 +178,8 @@ void fruit_position() {
         if (valid_position == 1) {
 
             //if the fruit is on the tail, its an invalid position and we leave the loop
-            for (int i=0; i<tail_length; i++) {
-                if (fruit_X == tail_X[i] && fruit_Y == tail_Y[i]) {
+            for (int i=0; i<tail.length; i++) {
+                if (fruit.x == tail.x[i] && fruit.y == tail.y[i]) {
                     valid_position=0;
                     break;
                 }
@@ -216,12 +216,12 @@ void draw_board() {
             }
 
             //draws the fruit
-            else if (i==fruit_Y && j==fruit_X) {
+            else if (i==fruit.y && j==fruit.x) {
                 printf("@");
             }
 
             //draws the snakes head
-            else if (i==snake_Y && j==snake_X) {
+            else if (i==snake.y && j==snake.x) {
                 printf("Q");
             }
 
@@ -229,8 +229,8 @@ void draw_board() {
             else {
                 int tail_found = 0;
 
-                for (int k=0; k<tail_length; k++) {
-                    if (i==tail_Y[k] && j==tail_X[k] ) {
+                for (int k=0; k<tail.length; k++) {
+                    if (i==tail.y[k] && j==tail.x[k] ) {
                         printf("o");
                         tail_found = 1;
                         break;
@@ -274,7 +274,7 @@ void userinput() {
                 direction=RIGHT;
                 break;
             case 'q':
-                quit = 1;
+                gs.quit = 1;
                 break;
             default:
                 printf("\n !!!!!!!!!!!!!!!invalid input!!!!!!!!!!!!!!!");
@@ -286,20 +286,20 @@ void userinput() {
 
 void update_logic() {
 
-    int tempX1 = tail_X[0];
-    int tempY1 = tail_Y[0];
+    int tempX1 = tail.x[0];
+    int tempY1 = tail.y[0];
 
-    tail_X[0] = snake_X;
-    tail_Y[0] = snake_Y;
+    tail.x[0] = snake.x;
+    tail.y[0] = snake.y;
 
     int tempX2, tempY2;
 
-    for (int i=1; i<tail_length; i++) {
-        tempX2 = tail_X[i];
-        tempY2 = tail_Y[i];
+    for (int i=1; i<tail.length; i++) {
+        tempX2 = tail.x[i];
+        tempY2 = tail.y[i];
 
-        tail_X[i] = tempX1;
-        tail_Y[i] = tempY1;
+        tail.x[i] = tempX1;
+        tail.y[i] = tempY1;
 
         tempX1 = tempX2;
         tempY1 = tempY2;
@@ -307,16 +307,16 @@ void update_logic() {
 
     switch (direction) {
         case UP:
-            snake_Y--;
+            snake.y--;
             break;
         case LEFT:
-            snake_X--;
+            snake.x--;
             break;
         case DOWN:
-            snake_Y++;
+            snake.y++;
             break;
         case RIGHT:
-            snake_X++;
+            snake.x++;
             break;
     }
 
@@ -327,30 +327,30 @@ void update_logic() {
 void check_collision() {
 
     //if the snakes head touches the fruit
-    if (snake_X == fruit_X && snake_Y == fruit_Y) {
+    if (snake.x == fruit.x && snake.y == fruit.y) {
         printf("\n you got one fruit!\n\n");
         fruit_position();
-        score++;
-        tail_length++;
+        gs.score++;
+        tail.length++;
 
         //the higher the score, the faster the snake moves
-        gamespeed = gamespeed-(score*5);
-        if (gamespeed<50) {
-            gamespeed = 50;
+        gs.speed = gs.speed-(gs.score*5);
+        if (gs.speed<50) {
+            gs.speed = 50;
         }
 
         return;
     }
 
     //if the snakes head hits the wall
-    if (snake_X <= 0 || snake_X >= WIDTH-1 || snake_Y < 0 || snake_Y >= HEIGHT) {
-        quit=1;
+    if (snake.x <= 0 || snake.x >= WIDTH-1 || snake.y < 0 || snake.y >= HEIGHT) {
+        gs.quit=1;
     }
 
     //if the snakes head touches her tail
-    for (int i=0; i<tail_length; i++) {
-        if (snake_X == tail_X[i] && snake_Y == tail_Y[i]) {
-            quit=1;
+    for (int i=0; i<tail.length; i++) {
+        if (snake.x == tail.x[i] && snake.y == tail.y[i]) {
+            gs.quit=1;
         }
     }
 
