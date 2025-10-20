@@ -61,6 +61,7 @@ void update_logic();
 void check_collision();
 int quit_menu();
 void title_screen();
+void leaderboard();
 
 int main() {
     int play_again=1;
@@ -106,10 +107,39 @@ void title_screen() {
     if (choice=='p') {
         return;
     }
+    if (choice == 'l') {
+        leaderboard();
+    }
     if (choice=='q') {
         exit(0);
     }
 
+}
+
+void leaderboard() {
+    system("cls");
+
+    char data[50];
+
+    FILE* fptr;
+    fptr = fopen("leaderboard.txt", "r");
+
+    if (fptr == NULL) {
+        printf("ERROR: COULD NOT OPEN FILE");
+    }
+    else {
+        while (fgets(data, 50, fptr) != NULL) {
+            printf("%s\n", data);
+        }
+        fclose(fptr);
+    }
+    printf("\nPress any button to go back to main menu: \n");
+    while (1) {
+        if (_kbhit()) {
+            system("cls");
+            title_screen();
+        }
+    }
 }
 
 //this function will do the initial setup of the program
