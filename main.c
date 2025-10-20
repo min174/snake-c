@@ -100,7 +100,7 @@ void title_screen() {
     }
 
     printf("Type your choice here: ");
-    scanf(" %c", &choice);
+    choice = getchar();
 
     choice = tolower(choice);
 
@@ -134,12 +134,15 @@ void leaderboard() {
         fclose(fptr);
     }
     printf("\nPress any button to go back to main menu: \n");
+
     while (1) {
         if (_kbhit()) {
+            fflush(stdin);
             system("cls");
-            title_screen();
+            break;
         }
     }
+    title_screen();
 }
 
 //this function will do the initial setup of the program
@@ -168,10 +171,15 @@ int quit_menu() {
     printf("Thank you for playing!\nYour final score is: %d\n", gs.score);
 
     while (1) {
+        system("cls");
         printf("Play again?\nY/N\n");
-        scanf(" %c", &answer);
-
-        answer = tolower(answer);
+        while (1) {
+            if (_kbhit()) {
+                answer = _getch();
+                answer = tolower(answer);
+                break;
+            }
+        }
 
         if (answer=='y') {
             gs.quit=0;
@@ -183,6 +191,7 @@ int quit_menu() {
         else{
             printf("\nInvalid input, please try again!\n");
         }
+
     }
 
 }
