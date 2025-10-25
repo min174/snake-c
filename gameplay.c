@@ -263,7 +263,6 @@ void check_collision() {
 
     //if the snakes head touches the fruit
     if (snake.x == fruit.x && snake.y == fruit.y) {
-        printf("\n you got one fruit!\n\n");
         fruit_position();
         s.score++;
         tail.length++;
