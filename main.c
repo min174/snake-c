@@ -42,6 +42,13 @@ struct game_state {
     int score;
 }gs;
 
+
+struct leaderboard{
+    int rank;
+    int score;
+    char name[8];
+}lb;
+
 struct position{
     int x;
     int y;
@@ -64,6 +71,7 @@ void title_screen();
 void leaderboard();
 
 int main() {
+
     int play_again=1;
     gs.speed = 150;
 
@@ -110,7 +118,7 @@ void title_screen() {
     if (choice == 'l') {
         leaderboard();
     }
-    if (choice=='q') {
+    if (choice == 'q') {
         exit(0);
     }
 
@@ -119,20 +127,26 @@ void title_screen() {
 void leaderboard() {
     system("cls");
 
-    char data[50];
-
     FILE* fptr;
     fptr = fopen("leaderboard.txt", "r");
+
+    printf("----------------LEADERBOARD----------------\nRANK\tNAME\tSCORE\n");
+
 
     if (fptr == NULL) {
         printf("ERROR: COULD NOT OPEN FILE");
     }
     else {
-        while (fgets(data, 50, fptr) != NULL) {
-            printf("%s\n", data);
+        while (fscanf(fptr,"%d %d %s", &lb.rank, &lb.score, lb.name) == 3) {
+            printf("%d.\t%s\t%d\n", lb.rank, lb.name, lb.score);
         }
-        fclose(fptr);
     }
+    fclose(fptr);
+
+    for (int i=0; i<43;i++) {
+        printf("-");
+    }
+
     printf("\nPress any button to go back to main menu: \n");
 
     while (1) {
@@ -142,12 +156,23 @@ void leaderboard() {
             break;
         }
     }
+    fflush(stdin);
     title_screen();
 }
 
 //this function will do the initial setup of the program
 void setup() {
     srand(time(NULL));
+
+    FILE *f;
+
+    f = fopen("leaderboard.txt", "r");
+
+    if (f == NULL) {
+        printf("ERROR: COULD NOT OPEN FILE");
+    }
+
+    fclose(f);
 
     //the program will not quit and the score is 0
     gs.quit=0;
