@@ -156,7 +156,6 @@ void leaderboard() {
             break;
         }
     }
-    fflush(stdin);
     title_screen();
 }
 
