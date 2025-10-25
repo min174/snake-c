@@ -97,7 +97,7 @@ int main() {
 }
 
 void title_screen() {
-
+    system("cls");
     char choice;
 
     //calculates how many lines are in the art array
@@ -108,7 +108,7 @@ void title_screen() {
     }
 
     printf("Type your choice here: ");
-    choice = getchar();
+    scanf(" %c", &choice);
 
     choice = tolower(choice);
 
@@ -149,10 +149,11 @@ void leaderboard() {
 
     printf("\nPress any button to go back to main menu: \n");
 
+    //breaks loop only once a button is pressed
     while (1) {
         if (_kbhit()) {
-            fflush(stdin);
-            system("cls");
+            //removes letter pressed
+            _getch();
             break;
         }
     }
