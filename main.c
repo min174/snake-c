@@ -196,7 +196,6 @@ int quit_menu() {
     printf("Thank you for playing!\nYour final score is: %d\n", gs.score);
 
     while (1) {
-        system("cls");
         printf("Play again?\nY/N\n");
         while (1) {
             if (_kbhit()) {
@@ -214,7 +213,8 @@ int quit_menu() {
             return 0;
         }
         else{
-            printf("\nInvalid input, please try again!\n");
+            system("cls");
+            printf("Invalid input, please try again!\n");
         }
 
     }
