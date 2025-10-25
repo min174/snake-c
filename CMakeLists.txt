@@ -3,12 +3,12 @@ project(snake C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(untitled main.c
-        main.c
-        gameplay.c
-        menu.c
-        gameplay.h
-        menu.h
+add_executable(untitled src/main.c
+        src/main.c
+        src/gameplay.c
+        src/menu.c
+        include/gameplay.h
+        include/menu.h
 )
 
-file(COPY leaderboard.txt DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY data/leaderboard.txt DESTINATION ${CMAKE_BINARY_DIR})

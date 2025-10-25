@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "menu.h"
-#include "gameplay.h"
+#include "../include/menu.h"
+#include "../include/gameplay.h"
 
 int main() {
     int play_again=1;
