@@ -61,7 +61,7 @@ void setup() {
 
 void game_loop() {
     //if the program has not quit, perform the loop
-    while (!game_over()) {
+    while (!is_game_over()) {
         draw_board();
         printf("Use WASD to move the snake\nP to pause\nQ to quit\n");
         printf("Score: %d\n", s.score);
@@ -290,7 +290,7 @@ void check_collision() {
 
 }
 
-int game_over() {
+int is_game_over() {
     return s.quit;
 }
 

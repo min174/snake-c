@@ -8,7 +8,7 @@ void draw_board();
 void userinput();
 void update_logic();
 void check_collision();
-int game_over();
+int is_game_over();
 int get_score();
 int game_speed();
 
