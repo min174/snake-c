@@ -2,6 +2,7 @@
 #define SNAKE_GAMEPLAY_H
 
 void setup();
+void game_loop();
 void fruit_position();
 void draw_board();
 void userinput();

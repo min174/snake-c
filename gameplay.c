@@ -3,17 +3,18 @@
 #include <time.h>
 #include <conio.h>
 #include <ctype.h>
+#include <windows.h>
 
 #include "gameplay.h"
-
-static int direction;
-static int last_direction;
 
 static struct settings {
     int speed;
     int quit;
     int score;
 }s;
+
+static int direction;
+static int last_direction;
 
 //preset directions
 enum D {
@@ -46,6 +47,7 @@ void setup() {
     //the program will not quit and the score is 0
     s.quit=0;
     s.score=0;
+    s.speed=150;
     tail.length=0;
     direction=STOP;
 
@@ -55,6 +57,19 @@ void setup() {
 
     //generates the first position for the fruit
     fruit_position();
+}
+
+void game_loop() {
+    //if the program has not quit, perform the loop
+    while (!game_over()) {
+        draw_board();
+        printf("Use WASD to move the snake\nP to pause\nQ to quit\n");
+        printf("Score: %d\n", s.score);
+        fflush(stdout);
+        userinput();
+        update_logic();
+        Sleep(s.speed);
+    }
 }
 
 //this function will randomise a location to put the fruit on the board
