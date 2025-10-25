@@ -1,11 +1,11 @@
+#include "gameplay.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
 #include <ctype.h>
 #include <windows.h>
-
-#include "gameplay.h"
 
 static struct settings {
     int speed;

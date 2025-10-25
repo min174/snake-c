@@ -1,9 +1,9 @@
+#include "menu.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <conio.h>
-
-#include "menu.h"
 
 static const char* title_art[] = {
     "####################################################",
