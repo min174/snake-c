@@ -5,6 +5,10 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(untitled main.c
         main.c
+        gameplay.c
+        menu.c
+        gameplay.h
+        menu.h
 )
 
 file(COPY leaderboard.txt DESTINATION ${CMAKE_BINARY_DIR})
