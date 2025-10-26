@@ -1,7 +1,7 @@
 ## 🍎Snake in C🐍  
   <div align="center"> <img width="2%" height="2%" alt="image" src="https://github.com/user-attachments/assets/71db4c2b-cd29-4b59-9021-0f6114c24b1b" /> 
   
-  ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/min174/snake-c?style=flat-square&label=%E2%99%A1%20commits%20%E2%99%A1&labelColor=ffc8dd&color=cdb4db)
+  ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/min174/snake-game-c?style=flat-square&label=%E2%99%A1%20commits%20%E2%99%A1&labelColor=ffc8dd&color=cdb4db)
 </div>
 
 ## Description
