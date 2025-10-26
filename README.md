@@ -1,4 +1,4 @@
-### · · ──────────────────────────────── ·𖥸· ──────────────────────────────── · ·
+### · · ───────────────────────── ·𖥸· ───────────────────────── · ·
 # Snake in C🐍
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/min174/snake-game-c?style=flat-square&label=%E2%99%A1%20commits%20%E2%99%A1&labelColor=ffc8dd&color=cdb4db">
 
@@ -29,4 +29,4 @@ The user can pause the game by pressing "P".
 - [ ] The user is able to join the leaderboard, by writing their name and beating the prewritten players.
 - [ ] There is more than one fruit. The @ gives one point, * gives two points and X takes away one point.
 
-### · · ──────────────────────────────── ·𖥸· ──────────────────────────────── · ·
+### · · ───────────────────────── ·𖥸· ───────────────────────── · ·
