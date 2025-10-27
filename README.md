@@ -7,26 +7,46 @@ I wanted to refresh my memory on coding in C. I wanted a project that I could ha
 
 ## 𓆙 Features 𓆙
 
-- **Snake Growth**  
-The snake grows when she eats a fruit.
+- Snake Growth  
+- Score Tracking 
+- Snake moves faster as the score increases
+- Main Menu
+- Play again menu   
+- Pause function
+- Different options of fruit (coming soon!)
+- Leaderboard (coming soon!)
+  
+## 𓆓 Prerequisites 𓆓
 
-- **Score Tracking**  
-The score will be tracked on the screen.
+Please make sure that you have a C compiler.
+- **Windows:** You can install MinGW-w64 via [MSYS2](https://www.msys2.org/).
+- **macOS:** Install the Xcode Command Line Tools by running `xcode-select --install` in your terminal.
+- **Linux (Ubuntu/Debian):** Install the build essentials package by running `sudo apt install build-essential`.
 
-- **Speed**  
-The snake moves faster the higher the score.
+## 𓆚 Building and Running 𓆚
 
-- **Main Menu**  
-I tried to create a cute but simple main menu screen which you can choose from three options, play, leaderboard and quit.
+- **Navigate to the project directory:**
+  ```bash
+  cd snake-in-c
+  ```
 
-- **Leaderboard**  
-I created a leaderboard that showcases the top 5 players, I included 5 prewritten highscore owners.
+- **Compile the source code:**
+Use the `gcc` compiler to compile all the `.c` source files and create an executable named `snake.exe` (or just `snake` on Mac/Linux).
 
-- **Pause**  
-The user can pause the game by pressing "P".
+  ```bash
+  gcc src/main.c src/gameplay.c src/menu.c -o snake.exe
+  ```
 
-## 𓆓 Future Features 𓆓
-- [ ] The user is able to join the leaderboard, by writing their name and beating the prewritten players.
-- [ ] There is more than one fruit. The @ gives one point, * gives two points and X takes away one point.
+- **Run the game:**
+Execute the compiled program from your terminal.
 
+  **On Windows:**
+  ```bash
+  .\snake.exe
+  ```
+
+  **On macOS/Linux:**
+  ```bash
+  ./snake
+  ```
 ### · · ───────────────────────── ·𖥸· ───────────────────────── · ·
